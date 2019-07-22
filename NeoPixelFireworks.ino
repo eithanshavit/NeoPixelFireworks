@@ -14,6 +14,7 @@
 #define CHIPSET     WS2812B
 #define NUM_LEDS    150
 #define BRIGHTNESS  200
+#define USE_CYCLIC_STRIP  false
 CRGB leds[NUM_LEDS];
 
 // Blasts
@@ -21,19 +22,12 @@ CRGB leds[NUM_LEDS];
 #define MAX_BLAST_COUNT 5
 LinkedList<Blast *> blasts = LinkedList<Blast *>();
 
-// DEBUG
-#define CREATE_BLAST_EVERY_SECONDS 1
-unsigned long framemNumber;
-
 void setup() 
 { 
     Serial.begin(115200);
     LEDS.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
     LEDS.setBrightness(BRIGHTNESS);
     randomSeed(analogRead(0));
-
-    // DEBUG
-    framemNumber = 0;
 }
 
 void loop() 
@@ -45,15 +39,11 @@ void loop()
     createBlasts();
     animateBlasts();
     FastLED.show();
-    framemNumber++;
     FastLED.delay(1000 / FRAMES_PER_SECOND);
 }
 
 void createBlasts() 
 {
-    if (0 && framemNumber % (CREATE_BLAST_EVERY_SECONDS * FRAMES_PER_SECOND) == 0) {
-        blasts.add(new Blast(7));
-    }
     if (random(101) < BLAST_PROBABILITY_PERCENT && blasts.size() < MAX_BLAST_COUNT) {
         blasts.add(new Blast(random(NUM_LEDS / LEDS_PER_METER)));
     }
@@ -94,7 +84,9 @@ void animateBlasts()
 int ledIndexFromPositionMeters(double posInMeters)
 {
     int index = floor(posInMeters * LEDS_PER_METER);
-    return index;
-    // Uncomment for cyclic
-    // return (index % NUM_LEDS + NUM_LEDS) % NUM_LEDS;
+    if (USE_CYCLIC_STRIP) {
+        return (index % NUM_LEDS + NUM_LEDS) % NUM_LEDS;
+    } else {
+        return index;
+    }
 }

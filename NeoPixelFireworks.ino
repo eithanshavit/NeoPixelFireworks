@@ -5,7 +5,7 @@
 #include "Blast.h"
 
 // Physics
-#define LEDS_PER_METER 10
+#define LEDS_PER_METER 30
 #define FRAMES_PER_SECOND 60
 
 // LEDS
@@ -20,7 +20,9 @@ CRGB leds[NUM_LEDS];
 // Blasts
 #define BLAST_PROBABILITY_PERCENT 4
 #define MAX_BLAST_COUNT 5
+#define BLAST_CREATION_LIMIT_AREA 2
 LinkedList<Blast *> blasts = LinkedList<Blast *>();
+double lastBlastLocation = 0;
 
 void setup() 
 { 
@@ -32,6 +34,8 @@ void setup()
 
 void loop() 
 { 
+    Serial.print(millis());
+    Serial.println(": looping");
     FastLED.clear();
     sanitizeBlasts();
     createBlasts();
@@ -43,7 +47,11 @@ void loop()
 void createBlasts() 
 {
     if (random(101) < BLAST_PROBABILITY_PERCENT && blasts.size() < MAX_BLAST_COUNT) {
-        blasts.add(new Blast(random(NUM_LEDS / LEDS_PER_METER)));
+        double newLocation = (double(random8(101)) / 100) * (NUM_LEDS / LEDS_PER_METER);
+        if (abs(newLocation - lastBlastLocation) > BLAST_CREATION_LIMIT_AREA) {
+            blasts.add(new Blast(newLocation));
+            lastBlastLocation = newLocation;
+        }
     }
 }
 

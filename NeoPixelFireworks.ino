@@ -32,8 +32,6 @@ void setup()
 
 void loop() 
 { 
-    Serial.print(millis());
-    Serial.println(": looping");
     FastLED.clear();
     sanitizeBlasts();
     createBlasts();

@@ -42,8 +42,6 @@ bool Blast::isAlive()
 
 void Blast::_addFlare(double velocityMeterPerSec)
 {
-        Serial.print("add flare: ");
-    Serial.println(velocityMeterPerSec);
     _flares->add(new Flare(
         _color,
         _postionMeters,

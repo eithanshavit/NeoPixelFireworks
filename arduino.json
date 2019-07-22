@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "LechetLights.ino",
+    "port": "/dev/cu.usbmodem2301",
+    "programmer": "AVRISP mkII"
+}

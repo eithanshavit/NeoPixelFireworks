@@ -6,17 +6,18 @@
 
 class Blast
 {
-    public:
-        Blast(double positionMeters);
-        bool isAlive();
-        LinkedList<Flare *> *getFlares();
-        int flaresCount();
-        ~Blast();
-    private:
-        void _addFlare(double velocityMeterPerSec);
-        double _postionMeters;
-        CRGB _color;
-        LinkedList<Flare *> *_flares;
+public:
+    Blast(double positionMeters);
+    bool isAlive();
+    LinkedList<Flare *> *getFlares();
+    int flaresCount();
+    ~Blast();
+
+private:
+    void _addFlare(double velocityMeterPerSec);
+    double _postionMeters;
+    CRGB _color;
+    LinkedList<Flare *> *_flares;
 };
 
 #endif

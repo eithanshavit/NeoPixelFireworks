@@ -9,9 +9,10 @@ Blast::Blast(double positionMeters)
 {
     _flares = new LinkedList<Flare *>();
     _postionMeters = positionMeters;
-    _color = CHSV(random8(), 255, 255); 
+    _color = CHSV(random8(), 255, 255);
     int numberOfFlares = random8(MIN_FLARE_COUNT, MAX_FLARE_COUNT);
-    while (--numberOfFlares > 0) {
+    while (--numberOfFlares > 0)
+    {
         double velocity = (MIN_VELOCITY_SEC + (MAX_VELOCITY_SEC - MIN_VELOCITY_SEC) * double(random8()) / 255) * (random8(2) ? 1 : -1);
         _addFlare(velocity);
     }
@@ -30,9 +31,11 @@ LinkedList<Flare *> *Blast::getFlares()
 bool Blast::isAlive()
 {
     bool isAlive = false;
-    for (int i = 0; i < _flares->size(); i++) {
+    for (int i = 0; i < _flares->size(); i++)
+    {
         Flare *f = _flares->get(i);
-        if (f->isAlive()) {
+        if (f->isAlive())
+        {
             isAlive = true;
             break;
         }
@@ -45,14 +48,14 @@ void Blast::_addFlare(double velocityMeterPerSec)
     _flares->add(new Flare(
         _color,
         _postionMeters,
-        velocityMeterPerSec
-    ));
+        velocityMeterPerSec));
 }
 
 Blast::~Blast()
 {
     Flare *flare;
-    while (_flares->size() > 0) {
+    while (_flares->size() > 0)
+    {
         flare = _flares->remove(0);
         delete flare;
     }

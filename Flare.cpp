@@ -8,7 +8,7 @@
 #define MAX_FADE_BY_VALUE 255
 
 Flare::Flare(
-    CRGB color, 
+    CRGB color,
     double positionMeters,
     double velocityMeterPerSec)
 {
@@ -22,14 +22,15 @@ Flare::Flare(
     _fadeFactor = MIN_FADE_BY_FACTOR + (MAX_FADE_BY_FACTOR - MIN_FADE_BY_FACTOR) * _randomFraction();
 }
 
-bool Flare::isAlive() 
+bool Flare::isAlive()
 {
     return _color.getLuma() > BRIGHTNESS_THRESHOLD;
 }
 
 CRGB Flare::getColor()
 {
-    if (_timeToSec(_age()) < _ignitionTimeSec) {
+    if (_timeToSec(_age()) < _ignitionTimeSec)
+    {
         return CRGB::White;
     }
     return _color;
@@ -48,17 +49,18 @@ void Flare::update()
     _postionMeters += _velocityMeterPerSec * _timeToSec(deltaSinceLastUpdate);
     _velocityMeterPerSec -= 2 * _velocityMeterPerSec * _timeToSec(deltaSinceLastUpdate);
     // Only fade if the age is past the ignition time
-    if (_timeToSec(_age()) > _ignitionTimeSec) {
+    if (_timeToSec(_age()) > _ignitionTimeSec)
+    {
         _color = _color.fadeToBlackBy(_fadeFactor * MAX_FADE_BY_VALUE);
     }
 }
 
-unsigned long Flare::_age() 
+unsigned long Flare::_age()
 {
     return _timeOfLastUpdate - _timeOfBirth;
 }
 
-double Flare::_timeToSec(unsigned long time) 
+double Flare::_timeToSec(unsigned long time)
 {
     return time / 1000.0;
 }

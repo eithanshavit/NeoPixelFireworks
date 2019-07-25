@@ -9,66 +9,66 @@
 
 Blast::Blast(double positionMeters)
 {
-    _flares = new LinkedList<Flare *>();
-    _postionMeters = positionMeters;
-    _color = CHSV(random8(), 255, 255);
-    int numberOfFlares = random8(MIN_FLARE_COUNT, MAX_FLARE_COUNT);
-    while (--numberOfFlares > 0)
-    {
-        double velocity = randomFraction(MIN_VELOCITY_SEC, MAX_VELOCITY_SEC) * (random8(2) ? 1 : -1);
-        _addFlare(velocity);
-    }
+  _flares = new LinkedList<Flare *>();
+  _postionMeters = positionMeters;
+  _color = CHSV(random8(), 255, 255);
+  int numberOfFlares = random8(MIN_FLARE_COUNT, MAX_FLARE_COUNT);
+  while (--numberOfFlares > 0)
+  {
+    double velocity = randomFraction(MIN_VELOCITY_SEC, MAX_VELOCITY_SEC) * (random8(2) ? 1 : -1);
+    _addFlare(velocity);
+  }
 }
 
 void Blast::update()
 {
-    for (int i = 0; i < _flares->size(); i++)
-    {
-        Flare *f = _flares->get(i);
-        f->update();
-    }
+  for (int i = 0; i < _flares->size(); i++)
+  {
+    Flare *f = _flares->get(i);
+    f->update();
+  }
 }
 
 int Blast::flaresCount()
 {
-    return _flares->size();
+  return _flares->size();
 }
 
 LinkedList<Flare *> *Blast::getFlares()
 {
-    return _flares;
+  return _flares;
 }
 
 bool Blast::isAlive()
 {
-    bool isAlive = false;
-    for (int i = 0; i < _flares->size(); i++)
+  bool isAlive = false;
+  for (int i = 0; i < _flares->size(); i++)
+  {
+    Flare *f = _flares->get(i);
+    if (f->isAlive())
     {
-        Flare *f = _flares->get(i);
-        if (f->isAlive())
-        {
-            isAlive = true;
-            break;
-        }
+      isAlive = true;
+      break;
     }
-    return isAlive;
+  }
+  return isAlive;
 }
 
 void Blast::_addFlare(double velocityMeterPerSec)
 {
-    _flares->add(new Flare(
-        _color,
-        _postionMeters,
-        velocityMeterPerSec));
+  _flares->add(new Flare(
+      _color,
+      _postionMeters,
+      velocityMeterPerSec));
 }
 
 Blast::~Blast()
 {
-    Flare *flare;
-    while (_flares->size() > 0)
-    {
-        flare = _flares->remove(0);
-        delete flare;
-    }
-    delete _flares;
+  Flare *flare;
+  while (_flares->size() > 0)
+  {
+    flare = _flares->remove(0);
+    delete flare;
+  }
+  delete _flares;
 }

@@ -10,8 +10,6 @@ class Blast
 public:
   Blast(double positionMeters);
   bool isAlive();
-  LinkedList<Flare *> *getFlares();
-  int flaresCount();
   void update();
   void render(Canvas *canvas);
   ~Blast();

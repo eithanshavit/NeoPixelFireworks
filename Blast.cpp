@@ -38,16 +38,6 @@ void Blast::render(Canvas *canvas)
   }
 }
 
-int Blast::flaresCount()
-{
-  return _flares->size();
-}
-
-LinkedList<Flare *> *Blast::getFlares()
-{
-  return _flares;
-}
-
 bool Blast::isAlive()
 {
   bool isAlive = false;

@@ -86,10 +86,10 @@ void animateBlasts()
   for (int i = 0; i < blasts.size(); i++)
   {
     blast = blasts.get(i);
+    blast->update();
     for (int j = 0; j < blast->flaresCount(); j++)
     {
       Flare *f = blast->getFlares()->get(j);
-      f->update();
       double positionMeters = f->getPositionMeters();
       int ledIndexPos = ledIndexFromPositionMeters(positionMeters);
       if (ledIndexPos >= 0 && ledIndexPos < NUM_LEDS)

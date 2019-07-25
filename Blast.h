@@ -11,6 +11,7 @@ public:
     bool isAlive();
     LinkedList<Flare *> *getFlares();
     int flaresCount();
+    void update();
     ~Blast();
 
 private:

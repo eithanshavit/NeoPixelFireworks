@@ -1,5 +1,7 @@
 #include "Blast.h"
 
+#include "Common.h"
+
 #define MIN_FLARE_COUNT 25
 #define MAX_FLARE_COUNT 45
 #define MIN_VELOCITY_SEC 0.4
@@ -13,8 +15,17 @@ Blast::Blast(double positionMeters)
     int numberOfFlares = random8(MIN_FLARE_COUNT, MAX_FLARE_COUNT);
     while (--numberOfFlares > 0)
     {
-        double velocity = (MIN_VELOCITY_SEC + (MAX_VELOCITY_SEC - MIN_VELOCITY_SEC) * double(random8()) / 255) * (random8(2) ? 1 : -1);
+        double velocity = randomFraction(MIN_VELOCITY_SEC, MAX_VELOCITY_SEC) * (random8(2) ? 1 : -1);
         _addFlare(velocity);
+    }
+}
+
+void Blast::update()
+{
+    for (int i = 0; i < _flares->size(); i++)
+    {
+        Flare *f = _flares->get(i);
+        f->update();
     }
 }
 

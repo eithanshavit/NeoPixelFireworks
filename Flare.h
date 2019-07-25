@@ -20,13 +20,11 @@ private:
     unsigned long _timeOfLastUpdate;
     double _velocityMeterPerSec;
     int _direction;
+    CRGB _initialColor;
     CRGB _color;
     double _postionMeters;
     double _fadeFactor;
     double _ignitionTimeSec;
-    unsigned long _age();
-    double _timeToSec(unsigned long time);
-    double _randomFraction();
 };
 
 #endif

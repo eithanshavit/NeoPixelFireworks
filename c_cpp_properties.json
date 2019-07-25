@@ -7,7 +7,12 @@
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/**",
                 "/Users/eithan/Library/Arduino15/packages/adafruit/hardware/samd/1.5.1/**",
                 "/Users/eithan/Library/Arduino15/packages/arduino/hardware/samd/1.8.3/**",
-                "/Users/eithan/Documents/Arduino/libraries/FastLED/**"
+                "/Users/eithan/Library/Arduino15/packages/arduino/tools/CMSIS-Atmel/1.2.0/CMSIS/Device/ATMEL/**",
+                "/Users/eithan/Documents/Arduino/libraries/FastLED/**",
+                "/Users/eithan/Documents/Arduino/libraries/FastLED/FastLED.h",
+                "/Users/eithan/Documents/Arduino/libraries/LinkedList/**",
+                "/Users/eithan/Documents/Arduino/libraries/LinkedList/LinkedList.h",
+                "${workspaceRoot}"
             ],
             "forcedInclude": [
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/Arduino.h"

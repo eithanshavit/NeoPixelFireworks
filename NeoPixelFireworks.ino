@@ -3,6 +3,7 @@
 
 #include "Flare.h"
 #include "Blast.h"
+#include "Canvas.h"
 
 // Physics
 #define LEDS_PER_METER 30
@@ -25,6 +26,9 @@ CRGB leds[NUM_LEDS];
 LinkedList<Blast *> blasts = LinkedList<Blast *>();
 double lastBlastLocation = 0;
 unsigned long timeOfLastBlast = 0;
+
+// Canvas
+Canvas canvas = Canvas(leds, NUM_LEDS, LEDS_PER_METER, USE_CYCLIC_STRIP);
 
 void setup()
 {
@@ -87,28 +91,6 @@ void animateBlasts()
   {
     blast = blasts.get(i);
     blast->update();
-    for (int j = 0; j < blast->flaresCount(); j++)
-    {
-      Flare *f = blast->getFlares()->get(j);
-      double positionMeters = f->getPositionMeters();
-      int ledIndexPos = ledIndexFromPositionMeters(positionMeters);
-      if (ledIndexPos >= 0 && ledIndexPos < NUM_LEDS)
-      {
-        leds[ledIndexPos] = f->getColor();
-      }
-    }
-  }
-}
-
-int ledIndexFromPositionMeters(double posInMeters)
-{
-  int index = floor(posInMeters * LEDS_PER_METER);
-  if (USE_CYCLIC_STRIP)
-  {
-    return (index % NUM_LEDS + NUM_LEDS) % NUM_LEDS;
-  }
-  else
-  {
-    return index;
+    blast->render(&canvas);
   }
 }

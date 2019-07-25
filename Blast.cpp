@@ -29,6 +29,15 @@ void Blast::update()
   }
 }
 
+void Blast::render(Canvas *canvas)
+{
+  for (int i = 0; i < _flares->size(); i++)
+  {
+    Flare *f = _flares->get(i);
+    f->render(canvas);
+  }
+}
+
 int Blast::flaresCount()
 {
   return _flares->size();

@@ -3,6 +3,7 @@
 
 #include <LinkedList.h>
 #include "Flare.h"
+#include "Canvas.h"
 
 class Blast
 {
@@ -12,6 +13,7 @@ public:
   LinkedList<Flare *> *getFlares();
   int flaresCount();
   void update();
+  void render(Canvas *canvas);
   ~Blast();
 
 private:

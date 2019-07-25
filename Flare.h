@@ -2,6 +2,7 @@
 #define Flare_h
 
 #include <FastLED.h>
+#include "Canvas.h"
 
 class Flare
 {
@@ -11,9 +12,8 @@ public:
       double positionMeters,
       double velocityMeterPerSec);
   bool isAlive();
-  CRGB getColor();
-  double getPositionMeters();
   void update();
+  void render(Canvas *canvas);
 
 private:
   unsigned long _timeOfBirth;

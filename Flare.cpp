@@ -26,16 +26,6 @@ bool Flare::isAlive()
   return _color.getLuma() > BRIGHTNESS_THRESHOLD;
 }
 
-CRGB Flare::getColor()
-{
-  return _color;
-}
-
-double Flare::getPositionMeters()
-{
-  return _postionMeters;
-}
-
 void Flare::update()
 {
   unsigned long currentTime = millis();
@@ -45,4 +35,9 @@ void Flare::update()
   _postionMeters += positionDelta;
   _velocityMeterPerSec -= 2 * positionDelta;
   _color = _color.fadeToBlackBy(_fadeFactor * MAX_FADE_BY_VALUE);
+}
+
+void Flare::render(Canvas *canvas)
+{
+  canvas->setColorInMeterPosition(_color, _postionMeters);
 }

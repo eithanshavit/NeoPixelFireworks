@@ -6,8 +6,8 @@ Canvas::Canvas(
     uint LEDsPerMeter,
     bool usesCyclicStrip)
 {
-  _numberOfLEDs = _numberOfLEDs;
-  _LEDsPerMeter = _LEDsPerMeter;
+  _numberOfLEDs = numberOfLEDs;
+  _LEDsPerMeter = LEDsPerMeter;
   _usesCyclicStrip = usesCyclicStrip;
   _leds = leds;
 }

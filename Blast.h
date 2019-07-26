@@ -3,6 +3,7 @@
 
 #include <LinkedList.h>
 #include "Flare.h"
+#include "Flash.h"
 #include "Canvas.h"
 
 class Blast
@@ -17,8 +18,11 @@ public:
 private:
   void _addFlare(double velocityMeterPerSec);
   double _postionMeters;
+  unsigned long _timeOfBirth;
+  unsigned long _particalDelaySec;
   CRGB _color;
   LinkedList<Flare *> *_flares;
+  Flash *_flash;
 };
 
 #endif

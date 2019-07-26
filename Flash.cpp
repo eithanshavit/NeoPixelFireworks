@@ -2,28 +2,34 @@
 
 #include "Common.h"
 
-#define MIN_FLASH_DURATION_SEC 3
-#define MAX_FLASH_DURATION_SEC 4
-
-Flash::Flash(double positionMeters)
+Flash::Flash(double positionMeters, double durationSec)
 {
   _timeOfBirth = millis();
   _postionMeters = positionMeters;
-  _durationSec = randomFraction(MIN_FLASH_DURATION_SEC, MAX_FLASH_DURATION_SEC);
+  _durationSec = durationSec;
+  _explodeDurationSec = durationSec / 2;
+  _implodeDurationSec = durationSec - _explodeDurationSec;
+  _color = CHSV(255, 0, 0);
 }
 
 bool Flash::isAlive()
 {
-  unsigned long timeSinceBirthSec = timeToSec(millis() - _timeOfBirth);
+  double timeSinceBirthSec = timeToSec(millis() - _timeOfBirth);
   return timeSinceBirthSec < _durationSec;
 }
 
 void Flash::update()
 {
-  unsigned long timeSinceBirth = timeToSec(millis() - _timeOfBirth);
+  double timeSinceBirthSec = timeToSec(millis() - _timeOfBirth);
+  double fractionOfLife = min(1, timeSinceBirthSec / _durationSec);
+  uint8_t colorValue = fractionOfLife * 255;
+  _color = CHSV(255, 0, colorValue);
 }
 
 void Flash::render(Canvas *canvas)
 {
-  canvas->setColorInMeterPosition(CRGB::White, _postionMeters);
+  CRGB color = isAlive() ? _color : CHSV(0, 0, 0);
+  canvas->setColorInMeterPosition(color, _postionMeters);
+  canvas->setColorInMeterPosition(color, _postionMeters + 0.02);
+  canvas->setColorInMeterPosition(color, _postionMeters - 0.02);
 }

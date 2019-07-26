@@ -16,11 +16,11 @@ public:
   void render(Canvas *canvas);
 
 private:
-  unsigned long _timeOfBirth;
-  unsigned long _timeOfLastUpdate;
+  double _timeOfBirth;
+  double _timeOfLastUpdate;
   double _velocityMeterPerSec;
   int _direction;
-  CRGB _initialColor;
+  CRGB _currentColor;
   CRGB _color;
   double _postionMeters;
   double _fadeFactor;

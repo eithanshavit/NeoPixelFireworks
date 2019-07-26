@@ -14,7 +14,7 @@
 #define COLOR_ORDER GRB
 #define CHIPSET WS2812B
 #define NUM_LEDS 150
-#define BRIGHTNESS 200
+#define BRIGHTNESS 240
 #define USE_CYCLIC_STRIP false
 CRGB leds[NUM_LEDS];
 
@@ -25,7 +25,7 @@ CRGB leds[NUM_LEDS];
 #define BLAST_CREATION_LIMIT_TIME_SEC 2
 LinkedList<Blast *> blasts = LinkedList<Blast *>();
 double lastBlastLocation = 0;
-unsigned long timeOfLastBlast = 0;
+double timeOfLastBlast = 0;
 
 // Canvas
 Canvas canvas = Canvas(leds, NUM_LEDS, LEDS_PER_METER, USE_CYCLIC_STRIP);
@@ -54,7 +54,7 @@ void createBlasts()
 {
   if (random(101) < BLAST_PROBABILITY_PERCENT && blasts.size() < MAX_BLAST_COUNT)
   {
-    unsigned long currentTime = millis();
+    double currentTime = millis();
     double newLocation = (double(random8(101)) / 100) * (NUM_LEDS / LEDS_PER_METER);
     if (abs(newLocation - lastBlastLocation) > BLAST_CREATION_LIMIT_AREA || (currentTime - timeOfLastBlast) / 1000 > BLAST_CREATION_LIMIT_TIME_SEC)
     {

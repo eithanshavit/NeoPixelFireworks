@@ -18,8 +18,8 @@ public:
 private:
   void _addFlare(double velocityMeterPerSec);
   double _postionMeters;
-  unsigned long _timeOfBirth;
-  unsigned long _particalDelaySec;
+  double _timeOfBirth;
+  double _flashDurationSec;
   CRGB _color;
   LinkedList<Flare *> *_flares;
   Flash *_flash;

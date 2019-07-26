@@ -6,14 +6,14 @@
 #define MAX_FLARE_COUNT 45
 #define MIN_VELOCITY_SEC 0.4
 #define MAX_VELOCITY_SEC 3
-#define MIN_PARTICAL_DELAY_SEC 1
-#define MAX_PARTICAL_DELAY_SEC 2
+#define MIN_FLASH_DURATION_SEC 0.3
+#define MAX_FLASH_DURATION_SEC 0.7
 
 Blast::Blast(double positionMeters)
 {
   _timeOfBirth = millis();
-  _particalDelaySec = randomFraction(MIN_PARTICAL_DELAY_SEC, MAX_PARTICAL_DELAY_SEC);
-  _flash = new Flash(positionMeters);
+  _flashDurationSec = randomFraction(MIN_FLASH_DURATION_SEC, MAX_FLASH_DURATION_SEC);
+  _flash = new Flash(positionMeters, _flashDurationSec);
   _flares = new LinkedList<Flare *>();
   _postionMeters = positionMeters;
   _color = CHSV(random8(), 255, 255);
@@ -21,8 +21,8 @@ Blast::Blast(double positionMeters)
 
 void Blast::update()
 {
-  unsigned long timeSinceBirthSec = timeToSec(millis() - _timeOfBirth);
-  if (timeSinceBirthSec > _particalDelaySec && _flares->size() == 0)
+  double timeSinceBirthSec = timeToSec(millis() - _timeOfBirth);
+  if (timeSinceBirthSec > _flashDurationSec && _flares->size() == 0)
   {
     int numberOfFlares = random8(MIN_FLARE_COUNT, MAX_FLARE_COUNT);
     while (--numberOfFlares > 0)
@@ -31,7 +31,10 @@ void Blast::update()
       _addFlare(velocity);
     }
   }
-  _flash->update();
+  if (_flash)
+  {
+    _flash->update();
+  }
   for (int i = 0; i < _flares->size(); i++)
   {
     Flare *f = _flares->get(i);
@@ -46,23 +49,31 @@ void Blast::render(Canvas *canvas)
     Flare *f = _flares->get(i);
     f->render(canvas);
   }
-  _flash->render(canvas);
+  if (_flash)
+  {
+    _flash->render(canvas);
+  }
 }
 
 bool Blast::isAlive()
 {
-  bool isAlive = false;
   for (int i = 0; i < _flares->size(); i++)
   {
     Flare *f = _flares->get(i);
     if (f->isAlive())
     {
-      isAlive = true;
-      break;
+      return true;
     }
   }
-  isAlive |= _flash->isAlive();
-  return isAlive;
+  if (_flares->size() == 0)
+  {
+    return true;
+  }
+  if (_flash && _flash->isAlive())
+  {
+    return true;
+  }
+  return false;
 }
 
 void Blast::_addFlare(double velocityMeterPerSec)

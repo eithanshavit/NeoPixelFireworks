@@ -2,6 +2,6 @@
 #define Common_h
 
 double randomFraction(double min, double max);
-double timeToSec(unsigned long time);
+double timeToSec(double time);
 
 #endif

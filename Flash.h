@@ -7,15 +7,18 @@
 class Flash
 {
 public:
-  Flash(double positionMeters);
+  Flash(double positionMeters, double durationSec);
   bool isAlive();
   void update();
   void render(Canvas *canvas);
 
 private:
-  unsigned long _timeOfBirth;
-  unsigned long _durationSec;
+  double _timeOfBirth;
+  double _durationSec;
+  double _explodeDurationSec;
+  double _implodeDurationSec;
   double _postionMeters;
+  CHSV _color;
 };
 
 #endif

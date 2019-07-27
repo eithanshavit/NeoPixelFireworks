@@ -3,11 +3,13 @@
 #include "Common.h"
 
 #define BRIGHTNESS_THRESHOLD 0
-#define MIN_FADE_BY_FACTOR 0.2
+#define MIN_FADE_BY_FACTOR 0.1
 #define MAX_FADE_BY_FACTOR 0.3
 #define MAX_FADE_BY_VALUE 255
 #define MIN_IGNITION_TIME_SEC 0.05
 #define MAX_IGNITION_TIME_SEC 0.15
+#define VELOCITY_SLOW_DOWN_FACTOR 1.5
+#define MIN_VELOCITY_METER_SEC 0.015
 
 Flare::Flare(
     CRGB color,
@@ -41,7 +43,10 @@ void Flare::update()
 
   double positionDeltaMeter = _velocityMeterPerSec * timeSinceLastUpdateSec;
   _postionMeters += positionDeltaMeter;
-  _velocityMeterPerSec -= 2 * positionDeltaMeter;
+  if (abs(_velocityMeterPerSec) > MIN_VELOCITY_METER_SEC)
+  {
+    _velocityMeterPerSec -= VELOCITY_SLOW_DOWN_FACTOR * positionDeltaMeter;
+  }
 
   bool isStillIgniting = timeSinceBirthSec < _ignitionTimeSec;
   _color.fadeToBlackBy(_fadeFactor * MAX_FADE_BY_VALUE);

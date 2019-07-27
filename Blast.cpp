@@ -5,8 +5,8 @@
 #define MIN_FLARE_COUNT 25
 #define MAX_FLARE_COUNT 45
 #define MIN_VELOCITY_SEC 0.4
-#define MAX_VELOCITY_SEC 3
-#define MIN_FLASH_DURATION_SEC 0.3
+#define MAX_VELOCITY_SEC 2
+#define MIN_FLASH_DURATION_SEC 0.5
 #define MAX_FLASH_DURATION_SEC 0.7
 
 Blast::Blast(double positionMeters)

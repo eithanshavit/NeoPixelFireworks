@@ -19,6 +19,8 @@ private:
   double _implodeDurationSec;
   double _postionMeters;
   CHSV _color;
+  uint8_t _explodeValue(double timeFraction);
+  uint8_t _implodeValue(double timeFraction);
 };
 
 #endif

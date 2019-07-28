@@ -6,7 +6,7 @@
 #include "Canvas.h"
 
 // Physics
-#define LEDS_PER_METER 30
+#define LEDS_PER_METER 15
 #define FRAMES_PER_SECOND 60
 
 // LEDS

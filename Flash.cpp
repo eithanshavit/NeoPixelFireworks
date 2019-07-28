@@ -3,15 +3,18 @@
 #include "Common.h"
 
 #define EXPLODE_IMPLODE_TIME_RATIO 0.6
+#define MAX_EXPLODE_RADIUS_METER 0.06
+#define MIN_EXPLODE_RADIUS_METER 0.2
 
-Flash::Flash(double positionMeters, double durationSec)
+Flash::Flash(CHSV color, double positionMeters, double durationSec)
 {
   _timeOfBirth = millis();
-  _postionMeters = positionMeters;
+  _positionMeters = positionMeters;
   _durationSec = durationSec;
   _explodeDurationSec = durationSec * EXPLODE_IMPLODE_TIME_RATIO;
   _implodeDurationSec = durationSec - _explodeDurationSec;
-  _color = CHSV(255, 0, 0);
+  _maxRadiusMeter = randomFraction(MIN_EXPLODE_RADIUS_METER, MAX_EXPLODE_RADIUS_METER);
+  _color = color;
 }
 
 bool Flash::isAlive()
@@ -23,36 +26,38 @@ bool Flash::isAlive()
 void Flash::update()
 {
   double timeSinceBirthSec = timeToSec(millis() - _timeOfBirth);
-  uint8_t colorValue;
+  double fractionOfProcessStage;
   if (timeSinceBirthSec < _explodeDurationSec)
   {
     double fractionOfExplode = timeSinceBirthSec / _explodeDurationSec;
-    colorValue = _explodeValue(fractionOfExplode);
+    fractionOfProcessStage = _explodeFractionByTime(fractionOfExplode);
   }
   else
   {
     double fractionOfImplode = min(1, (timeSinceBirthSec - _explodeDurationSec) / _implodeDurationSec);
-    colorValue = _implodeValue(fractionOfImplode);
+    fractionOfProcessStage = _implodeFractionByTime(fractionOfImplode);
   }
-  _color = CHSV(255, 0, colorValue);
+  //_color = CHSV(255, 0, fractionOfProcessStage * 255);
+  _color.sat = fractionOfProcessStage * 255;
+  _color.val = fractionOfProcessStage * 255;
+  _radiusMeter = _maxRadiusMeter * fractionOfProcessStage;
 }
 
 void Flash::render(Canvas *canvas)
 {
-  CRGB color = isAlive() ? _color : CHSV(0, 0, 0);
-  canvas->setColorInMeterPosition(color, _postionMeters);
-  canvas->setColorInMeterPosition(color, _postionMeters + 0.02);
-  canvas->setColorInMeterPosition(color, _postionMeters - 0.02);
+  if (!isAlive())
+  {
+    return;
+  }
+  canvas->setColorInMeterPositionWithRadius(_color, _positionMeters, _radiusMeter);
 }
 
-uint8_t Flash::_explodeValue(double timeFraction)
+double Flash::_explodeFractionByTime(double timeFraction)
 {
-  uint8_t value = ((ease8InOutQuad(127 + timeFraction * 128) - ease8InOutQuad(127)) * 255) / (ease8InOutQuad(255) - ease8InOutQuad(127));
-  return value;
+  return (double(ease8InOutQuad(127 + timeFraction * 128)) - 126.0) / 129.0;
 }
 
-uint8_t Flash::_implodeValue(double timeFraction)
+double Flash::_implodeFractionByTime(double timeFraction)
 {
-  uint8_t value = 255 - ease8InOutQuad(timeFraction * 128);
-  return value;
+  return (255.0 - double(ease8InOutQuad(timeFraction * 128))) / 255.0;
 }

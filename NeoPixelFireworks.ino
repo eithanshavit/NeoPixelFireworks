@@ -10,7 +10,7 @@
 #define FRAMES_PER_SECOND 60
 
 // LEDS
-#define LED_PIN 6
+#define LED_PIN 0
 #define COLOR_ORDER GRB
 #define CHIPSET WS2812B
 #define NUM_LEDS 150

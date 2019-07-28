@@ -7,7 +7,7 @@
 class Flash
 {
 public:
-  Flash(double positionMeters, double durationSec);
+  Flash(CHSV color, double positionMeters, double durationSec);
   bool isAlive();
   void update();
   void render(Canvas *canvas);
@@ -17,10 +17,12 @@ private:
   double _durationSec;
   double _explodeDurationSec;
   double _implodeDurationSec;
-  double _postionMeters;
+  double _positionMeters;
+  double _maxRadiusMeter;
+  double _radiusMeter;
   CHSV _color;
-  uint8_t _explodeValue(double timeFraction);
-  uint8_t _implodeValue(double timeFraction);
+  double _explodeFractionByTime(double timeFraction);
+  double _implodeFractionByTime(double timeFraction);
 };
 
 #endif

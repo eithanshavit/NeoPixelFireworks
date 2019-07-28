@@ -21,6 +21,21 @@ void Canvas::setColorInMeterPosition(CRGB color, double meterPosition)
   }
 }
 
+// TODO: Support cyclic behavior for setColorInMeterPositionWithRadius method
+void Canvas::setColorInMeterPositionWithRadius(CRGB color, double meterPosition, double radius)
+{
+  int ledIndexStart = _ledIndexFromMeterPosition(meterPosition - radius);
+  int ledIndexEnd = _ledIndexFromMeterPosition(meterPosition + radius);
+  int ledIndex = ledIndexStart;
+  while (++ledIndex <= ledIndexEnd)
+  {
+    if (ledIndex >= 0 && ledIndex < _numberOfLEDs)
+    {
+      _leds[ledIndex] = color;
+    }
+  }
+}
+
 int Canvas::_ledIndexFromMeterPosition(double meterPosition)
 {
   int index = floor(meterPosition * _LEDsPerMeter);

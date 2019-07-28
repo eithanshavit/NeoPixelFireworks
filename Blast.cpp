@@ -13,10 +13,10 @@ Blast::Blast(double positionMeters)
 {
   _timeOfBirth = millis();
   _flashDurationSec = randomFraction(MIN_FLASH_DURATION_SEC, MAX_FLASH_DURATION_SEC);
-  _flash = new Flash(positionMeters, _flashDurationSec);
+  _color = CHSV(random8(), 255, 255);
+  _flash = new Flash(_color, positionMeters, _flashDurationSec);
   _flares = new LinkedList<Flare *>();
   _postionMeters = positionMeters;
-  _color = CHSV(random8(), 255, 255);
 }
 
 void Blast::update()

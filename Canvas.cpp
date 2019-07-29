@@ -17,7 +17,7 @@ void Canvas::setColorInMeterPosition(CRGB color, double meterPosition)
   int ledIndexPos = _ledIndexFromMeterPosition(meterPosition);
   if (ledIndexPos >= 0 && ledIndexPos < _numberOfLEDs)
   {
-    _leds[ledIndexPos] = color;
+    _leds[ledIndexPos] += color;
   }
 }
 
@@ -31,7 +31,7 @@ void Canvas::setColorInMeterPositionWithRadius(CRGB color, double meterPosition,
   {
     if (ledIndex >= 0 && ledIndex < _numberOfLEDs)
     {
-      _leds[ledIndex] = color;
+      _leds[ledIndex] += color;
     }
   }
 }
